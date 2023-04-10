@@ -1,0 +1,13 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+// 解决base中vertical-align:middle使ant图标不居中的问题
+@layer base {
+  svg {
+    display: inline;
+    vertical-align: baseline;
+  }
+}

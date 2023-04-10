@@ -1,0 +1,4 @@
+node_modules
+dist
+tailwind.css
+tailwind.scss
