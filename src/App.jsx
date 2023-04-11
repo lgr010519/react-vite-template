@@ -1,11 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import * as apis from './api/index'
 
 function App() {
   const [count, setCount] = useState(0)
 
+  useEffect(() => {
+    async function getDownList() {
+      try {
+        apis.getDownList('project_class')
+      } catch (error) {
+        console.error('获取下拉列表错误', error)
+      }
+    }
+
+    apis
+      .getDownList('project_class1')
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.error('err', err)
+      })
+    getDownList()
+  }, [])
   return (
     <div className="App">
       <div>
