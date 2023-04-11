@@ -367,3 +367,167 @@ useEffect(() => {
 在组件中调用接口，推荐使用`useRequest`
 
 https://ahooks.js.org/zh-CN/hooks/use-request/index
+
+## 配置别名
+
+1. vite.config.js
+
+```
+import { defineConfig } from 'vite'
+import path from 'path'
+import react from '@vitejs/plugin-react'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+})
+
+```
+
+2. jsconfig.json
+
+```
+{
+  "include": [
+    "./src/**/*"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
+```
+
+## 配置构建时删除`console.log`
+
+```
+import { defineConfig } from 'vite'
+import path from 'path'
+import react from '@vitejs/plugin-react'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  esbuild: {
+    pure: ['console.log'],
+    minify: true,
+  },
+})
+
+```
+
+## 安装 antd
+
+1. `pnpm install antd dayjs --save`
+2. 引入
+
+```
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+import zhCN from 'antd/locale/zh_CN'
+import { ConfigProvider } from 'antd'
+import App from './App'
+import '@/assets/styles/index.scss'
+import 'antd/dist/reset.css';
+
+dayjs.locale('zh-cn')
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <ConfigProvider locale={zhCN}>
+      <App />
+    </ConfigProvider>
+  </React.StrictMode>,
+)
+
+```
+
+3. 配置主题变量
+
+- 因为这里的主题变量同样需要在 scss 中使用，所以做一下处理新建`src\assets\styles\variables.scss.js`
+
+```
+const variables = {
+  colorPrimary: '#00b96b',
+}
+
+export default variables
+
+```
+
+4. antd 使用主题变量
+
+```
+import styleVariables from '@/assets/styles/variables.scss.js'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <ConfigProvider
+      locale={zhCN}
+      theme={{
+        token: {
+          ...styleVariables,
+        },
+      }}>
+      <AntdApp>
+        <App />
+      </AntdApp>
+    </ConfigProvider>
+
+```
+
+5. 添加主题变量到 scss 全局变量
+
+```
+import { defineConfig } from 'vite'
+import path from 'path'
+import react from '@vitejs/plugin-react'
+import scssVariables from './src/assets/styles/variables.scss.js'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: Object.keys(scssVariables)
+          .map((k) => `$${k}: ${scssVariables[k]};`)
+          .join('\n'),
+      },
+    },
+  },
+  esbuild: {
+    pure: ['console.log'],
+    minify: true,
+  },
+})
+
+```
+
+5. 在 scss 文件中使用全局变量
+
+```
+p {
+  margin-bottom: 0;
+  color: $colorPrimary;
+}
+```

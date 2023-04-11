@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import * as apis from './api/index'
+import { DatePicker, App as AntdApp } from 'antd'
+import * as apis from '@/api/index'
 
 function App() {
+  const { message } = AntdApp.useApp()
   const [count, setCount] = useState(0)
 
   useEffect(() => {
@@ -26,6 +28,13 @@ function App() {
       })
     getDownList()
   }, [])
+  const [date, setDate] = useState(null)
+  const handleChange = (value) => {
+    message.info(
+      `您选择的日期是: ${value ? value.format('YYYY年MM月DD日') : '未选择'}`,
+    )
+    setDate(value)
+  }
   return (
     <div className="App">
       <div>
@@ -62,6 +71,10 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <DatePicker onChange={handleChange}></DatePicker>
+      <div style={{ marginTop: 16 }}>
+        当前日期：{date ? date.format('YYYY年MM月DD日') : '未选择'}
+      </div>
     </div>
   )
 }

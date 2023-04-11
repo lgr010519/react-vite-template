@@ -1,4 +1,5 @@
 @import './tailwind';
+@import 'antd/dist/reset.css';
 @import '//at.alicdn.com/t/font_2917743_255h2sxth2nh.css';
 
 body,
@@ -7,6 +8,7 @@ html {
 
   p {
     margin-bottom: 0;
+    color: $colorPrimary;
   }
 }
 
