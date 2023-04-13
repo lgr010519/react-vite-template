@@ -531,3 +531,190 @@ p {
   color: $colorPrimary;
 }
 ```
+
+## 配置路由
+
+1. 安装依赖
+
+```
+pnpm install react-router-dom --save
+```
+
+2. 新建路由文件 src\router\index.jsx
+
+```
+import Test from '@/views/Test/Test'
+import { createBrowserRouter } from 'react-router-dom'
+
+const routes = [
+  {
+    path: '/',
+    element: <Test />,
+  },
+]
+
+export default createBrowserRouter(routes)
+
+```
+
+3. 引入 src\main.jsx
+
+```
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { RouterProvider } from 'react-router-dom'
+import router from './router'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <RouterProvider router={router}></RouterProvider>
+  </React.StrictMode>,
+)
+
+```
+
+### 教程
+
+- 路由配置
+- 创建路由
+- 懒加载
+- 嵌套路由
+- 默认路由
+
+```js
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+// 传入routes 创建router
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    // 错误路由
+    errorElement: <ErrorPage />,
+    loader: rootLoader,
+    action: rootAction,
+    // 嵌套路由
+    children: [
+      // 默认路由
+      { index: true, element: <Index /> },
+      // <Navigate />
+      {
+        index: true,
+        element: (
+          <Navigate
+            to="/admin/manage-account"
+            replace={true}
+          />
+        ),
+      },
+      // 动态路由
+      {
+        path: 'contacts/:contactId',
+        // 懒加载
+        async lazy() {
+          let ContactNew = await import('./routes/contact')
+          return { Component: ContactNew.default, loader: contactLoader }
+        },
+      },
+      {
+        path: 'contacts/:contactId/edit',
+        element: <EditContact />,
+        loader: contactLoader,
+        action: editAction,
+      },
+      {
+        path: 'contacts/:contactId/destroy',
+        action: destroyAction,
+      },
+      // 可选值
+      // - /categories
+      // - /en/categories
+      // - /fr/categories
+      {
+        path: '/:lang?/categories',
+        element: <Element />,
+      },
+    ],
+  },
+])
+
+export default function Root() {
+  // 导航当前状态
+  /* 
+    navigation.state;
+    navigation.location;
+    navigation.formData;
+    navigation.formAction;
+    navigation.formMethod;
+  */
+  const navigation = useNavigation()
+
+  // 路由参数 获取动态值
+  let urlParams = useParams()
+  console.log(params.teamId) // "hotspur"
+
+  // 路由查询参数
+  let [searchParams, setSearchParams] = useSearchParams()
+
+  // 路由跳转
+  let navigate = useNavigate()
+  function handleAddContact() {
+    navigate('/contacts/new')
+  }
+
+  let location = useLocation()
+
+  return (
+    <>
+      <div id="sidebar">
+        <h1>React Router Contacts</h1>
+        <div></div>
+        <nav>
+          {contacts.length ? (
+            <ul>
+              {contacts.map((contact) => (
+                <li key={contact.id}>
+                  // NavLink 会根据当前路由的状态，给元素添加不同的 class
+                  <NavLink
+                    to={`contacts/${contact.id}`}
+                    className={({ isActive, isPending }) =>
+                      isActive ? 'active' : isPending ? 'pending' : ''
+                    }>
+                    {contact.first || contact.last ? (
+                      <>
+                        {contact.first} {contact.last}
+                      </>
+                    ) : (
+                      <i>No Name</i>
+                    )}{' '}
+                    {contact.favorite && <span>★</span>}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>
+              <i>No contacts</i>
+            </p>
+          )}
+        </nav>
+      </div>
+      <div
+        id="detail"
+        // 导航的状态
+        className={navigation.state === 'loading' ? 'loading' : ''}>
+        // 动态路由插槽
+        <Outlet />
+      </div>
+    </>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>,
+)
+```
