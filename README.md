@@ -229,7 +229,7 @@ https://cn.vitejs.dev/guide/env-and-mode.html
 ```javascript
 import axios from 'axios'
 
-export const baseUrl = process.env.VITE_APP_API_BASE_URL
+export const baseUrl = import.env.VITE_APP_API_BASE_URL
 
 // 30秒中断请求
 axios.defaults.timeout = 30000
