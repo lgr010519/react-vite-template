@@ -52,7 +52,8 @@ module.exports = {
 ```
 
 3. 配置 settings.json
-
+   全局配置：在vscode设置中搜索settings.json进行配置
+   单独配置: 在项目的根目录中创建.vscode文件夹 然后在该文件夹中创建settings.json文件进行配置即可
 ```
 # settings.json
 {
