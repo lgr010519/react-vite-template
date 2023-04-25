@@ -1,6 +1,5 @@
 module.exports = {
-  extends: ['react-app', 'plugin:jsx-a11y/recommended', 'prettier'],
-  plugins: ['jsx-a11y'],
+  extends: ['react-app', 'prettier'],
   rules: {
     'prefer-const': 2,
     'no-const-assign': 2,

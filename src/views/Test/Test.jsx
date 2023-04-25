@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import reactLogo from '@/assets/react.svg'
 import viteLogo from '/vite.svg'
 import './Test.scss'
-import { DatePicker, App as AntdApp } from 'antd'
+import { DatePicker, App as AntdApp, Button } from 'antd'
 import * as apis from '@/api/index'
 
 function Test() {
@@ -71,6 +71,10 @@ function Test() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <Button type="primary">测试按钮</Button>
+      <br />
+      <br />
+      <br />
       <DatePicker onChange={handleChange}></DatePicker>
       <div style={{ marginTop: 16 }}>
         当前日期：{date ? date.format('YYYY年MM月DD日') : '未选择'}
