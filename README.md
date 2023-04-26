@@ -1,5 +1,7 @@
 # vite-react 项目
 
+最终项目配置 http://code-base.yoyohr.com/youpin-frontend-team/vite-react-project.git
+
 ## 创建项目
 
 [通过 pnpm 创建](https://cn.vitejs.dev/guide/#scaffolding-your-first-vite-project)
@@ -12,13 +14,29 @@
 - https://www.npmjs.com/package/eslint-config-react-app
 
 1. `pnpm install --save-dev eslint`
-2. `pnpm install --save-dev eslint-config-react-app`
+2. `pnpm install --save-dev eslint-config-react-app eslint-plugin-react-refresh`
 3. 创建 `.eslintrc.cjs` 在 vite 因为 package.json 中的 type 是 module，所以不能使用 `.eslintrc.js`，所以使用 `.eslintrc.cjs`
 
 ```
 {
-  "extends": ["react-app", "plugin:jsx-a11y/recommended"],
-  "plugins": ["jsx-a11y"]
+  extends: ['react-app', 'prettier'],
+  plugins: ['react-refresh'],
+  rules: {
+    'prefer-const': 2,
+    'no-const-assign': 2,
+    'no-undef': 2,
+    'no-unused-vars': [
+      2,
+      {
+        // 禁止存在未使用的变量、函数、函数参数
+        vars: 'all',
+        args: 'none',
+      },
+    ],
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'error',
+    'react-refresh/only-export-components': 'warn',
+  },
 }
 ```
 

@@ -1,5 +1,6 @@
 module.exports = {
   extends: ['react-app', 'prettier'],
+  plugins: ['react-refresh'],
   rules: {
     'prefer-const': 2,
     'no-const-assign': 2,
@@ -14,5 +15,6 @@ module.exports = {
     ],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
+    'react-refresh/only-export-components': 'warn',
   },
 }
