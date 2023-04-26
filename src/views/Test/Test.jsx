@@ -17,15 +17,6 @@ function Test() {
         console.error('获取下拉列表错误', error)
       }
     }
-
-    apis
-      .getDownList('project_class1')
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        console.error('err', err)
-      })
     getDownList()
   }, [])
   const [date, setDate] = useState(null)

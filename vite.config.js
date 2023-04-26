@@ -24,4 +24,7 @@ export default defineConfig({
     pure: ['console.log'],
     minify: true,
   },
+  server: {
+    host: '0.0.0.0',
+  },
 })

@@ -6,14 +6,14 @@
 
 `pnpm create vite`
 
-## 配置`eslint`
+## 配置 `eslint`
 
 - https://eslint.org/docs/latest/use/getting-started
 - https://www.npmjs.com/package/eslint-config-react-app
 
 1. `pnpm install --save-dev eslint`
 2. `pnpm install --save-dev eslint-config-react-app`
-3. 创建`.eslintrc.cjs` 在 vite 因为 package.json 中的 type 是 module，所以不能使用`.eslintrc.js`，所以使用`.eslintrc.cjs`
+3. 创建 `.eslintrc.cjs` 在 vite 因为 package.json 中的 type 是 module，所以不能使用 `.eslintrc.js`，所以使用 `.eslintrc.cjs`
 
 ```
 {
@@ -34,7 +34,7 @@
 ## 配置 stylelint
 
 1. 安装 stylelint,和 scss 支持以及排序规则 `pnpm install --save-dev stylelint postcss-scss sass stylelint-config-standard-scss stylelint-order stylelint-config-hudochenkov`
-2. 创建`.stylelintrc.cjs`
+2. 创建 `.stylelintrc.cjs`
 
 ```
 module.exports = {
@@ -51,7 +51,7 @@ module.exports = {
 
 ```
 
-3. 配置 settings.json 全局配置：在 vscode 设置中搜索 settings.json 进行配置单独配置: 在项目的根目录中创建.vscode 文件夹 然后在该文件夹中创建 settings.json 文件进行配置即可
+3. 配置 settings.json
 
 ```
 # settings.json
@@ -125,9 +125,11 @@ proseWrap：换行符处理方式。
 overrides：为特定文件配置单独的选项。
 ```
 
-3. 添加 vscode 配置
+1. 添加 vscode 配置
 
-添加 vscode 配置
+   1.1：全局配置 : 在 vsCode 设置中搜索 settings.json 进行配置即可
+
+   1.2：单独配置 : 在项目的根目录下创建.vscode 文件夹 然后在该文件夹中创建 settings.json 文件进行配置即可
 
 ```
 # settings.json
@@ -215,6 +217,35 @@ npx --no-install lint-staged
 
 https://tailwindcss.com/docs/guides/vite
 
+## 使用 css module
+
+```javascript
+// 创建.modult.scss文件并且引入
+import style from './index.module.scss'
+
+const Login = () => {
+  const [formType, setFormType] = useState('login')
+  const userInfo = useSelector(getUserInfo)
+  const handleChangeType = (type) => {
+    setFormType(type)
+  }
+
+  const FormCom = formConf[formType]
+  useEffect(() => {
+    console.log(userInfo)
+  }, [userInfo])
+  return (
+    // 通过引用类名的方式使用
+    <div className={style.container}>
+      <div className={style.formBox}>
+        <FormCom onChangeType={handleChangeType} />
+      </div>
+      {/* <Footer /> */}
+    </div>
+  )
+}
+```
+
 ## 环境变量
 
 https://cn.vitejs.dev/guide/env-and-mode.html
@@ -229,7 +260,7 @@ https://cn.vitejs.dev/guide/env-and-mode.html
 ```javascript
 import axios from 'axios'
 
-export const baseUrl = import.env.VITE_APP_API_BASE_URL
+export const baseUrl = process.env.VITE_APP_API_BASE_URL
 
 // 30秒中断请求
 axios.defaults.timeout = 30000
@@ -364,9 +395,7 @@ useEffect(() => {
 
 ### ahook.useRequest
 
-`pnpm add ahooks`
-
-在组件中调用接口，推荐使用`useRequest`
+`pnpm add ahooks` 在组件中调用接口，推荐使用 `useRequest`
 
 https://ahooks.js.org/zh-CN/hooks/use-request/index
 
@@ -407,7 +436,7 @@ export default defineConfig({
 }
 ```
 
-## 配置构建时删除`console.log`
+## 配置构建时删除 `console.log`
 
 ```
 import { defineConfig } from 'vite'
@@ -460,7 +489,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 3. 配置主题变量
 
-- 因为这里的主题变量同样需要在 scss 中使用，所以做一下处理新建`src\assets\styles\variables.scss.js`
+- 因为这里的主题变量同样需要在 scss 中使用，所以做一下处理新建 `src\assets\styles\variables.scss.js`
 
 ```
 const variables = {
@@ -719,4 +748,141 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <RouterProvider router={router} />
   </React.StrictMode>,
 )
+```
+
+## 全局状态管理(react-redux)
+
+https://redux.js.org/tutorials/quick-start
+
+### 安装 Redux Toolkit 和 React Redux
+
+```
+pnpm install @reduxjs/toolkit react-redux
+```
+
+### 注册全局状态存储容器(Store)
+
+```javascript
+import { configureStore } from '@reduxjs/toolkit'
+
+export default configureStore({
+  reducer: {},
+})
+```
+
+### 定义存储状态以及修改状态的模块
+
+```javascript
+import { createSlice } from '@reduxjs/toolkit'
+const userInfoJsonStr = localStorage.getItem('userInfo')
+// 用户权限状态
+export const permissionsSlice = createSlice({
+  name: 'permissions',
+  initialState: {
+    token: localStorage.getItem('token') || '',
+    // 用户信息
+    userInfo:
+      userInfoJsonStr && userInfoJsonStr !== 'undefined'
+        ? JSON.parse(userInfoJsonStr)
+        : { name: '我是憨猪' },
+  },
+  reducers: {
+    setUserToken: (state, action) => {
+      /**
+       * Redux Toolkit允许我们在reducers中编写“突变”逻辑。
+       * 它实际上并没有改变状态，因为它使用了Immer库，
+       * 它检测到“草稿状态”的变化并产生全新的
+       * 基于这些更改的不可变状态
+       *
+       * Tips：接收参数的时候会得到一个对象
+       *  action : {
+       *    type:'当前状态模块的name/当前方法名',
+       *    payload:'接收的参数'
+       *  }
+       *
+       */
+      localStorage.setItem('token', action.payload)
+      state.token = action.payload
+    },
+    getUserToken: (state) => state.token,
+    getUserInfo: (state) => state.userInfo,
+  },
+})
+
+// 单独导出action方法 方便使用
+export const { setUserToken, getUserToken, getUserInfo } =
+  permissionsSlice.actions
+// 导出该Store用于命名注册
+export default permissionsSlice.reducer
+```
+
+### 提供状态模块给 React
+
+```javascript
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import zhCN from 'antd/locale/zh_CN'
+import styleVariables from '@/assets/style/variables.scss.js'
+import { ConfigProvider } from 'antd'
+import store from './store'
+import { Provider } from 'react-redux'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <ConfigProvider
+      locale={zhCN}
+      theme={{
+        token: {
+          ...styleVariables,
+        },
+      }}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ConfigProvider>
+  </React.StrictMode>,
+```
+
+### 在 React 组件中使用 Redux 状态和操作
+
+```javascript
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserInfo, getUserToken, setUserToken } from '@/store/permissions'
+import { Button, Input } from 'antd'
+export default function Login() {
+  const dispatch = useDispatch()
+  // 获取状态
+  const token = useSelector((state) => {
+    return state.permissions.token
+  })
+  // dispatch 用于调用 action 方法
+  const userInfo = () => {
+    dispatch(setUserToken(value))
+  }
+  // InputValue
+  const [value, setValue] = useState('')
+  useEffect(() => {
+    console.log('token状态改变了', token)
+  }, [token])
+  return (
+    <div>
+      <Input
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value)
+        }}
+      />
+      <Button
+        onClick={() => {
+          userInfo()
+        }}
+        type="primary">
+        确定
+      </Button>
+      <h2>{token}</h2>
+    </div>
+  )
+}
 ```
