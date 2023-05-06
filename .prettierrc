@@ -9,6 +9,7 @@
   "singleAttributePerLine": true,
   "proseWrap": "never",
   "endOfLine": "auto",
+  "htmlWhitespaceSensitivity": "strict",
   "overrides": [
     {
       "files": ".prettierrc",

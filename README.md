@@ -36,6 +36,14 @@
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
     'react-refresh/only-export-components': 'warn',
+    react/jsx-closing-tag-location': 'error',
+    'react/self-closing-comp': [
+      2,
+      {
+        component: true, // 要求对组件使用自闭合标签
+        html: true, // 不要求对 HTML 标记使用自闭合标签
+      },
+    ],
   },
 }
 ```
@@ -63,7 +71,13 @@ module.exports = {
   ],
   plugins: ['stylelint-order'],
   rules: {
+    'selector-max-type': 5,
+    'selector-max-id': 5,
     'value-list-comma-space-after': 'always',
+    'selector-class-pattern': null,
+    'declaration-no-important': null,
+    'selector-pseudo-class-no-unknown': null,
+    'no-descending-specificity': null,
   },
 }
 

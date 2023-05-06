@@ -16,5 +16,13 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
     'react-refresh/only-export-components': 'warn',
+    'react/jsx-closing-tag-location': 'error',
+    'react/self-closing-comp': [
+      2,
+      {
+        component: true, // 要求对组件使用自闭合标签
+        html: true, // 不要求对 HTML 标记使用自闭合标签
+      },
+    ],
   },
 }
