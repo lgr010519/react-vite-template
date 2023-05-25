@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { message } from 'antd'
 
 export const baseUrl = import.meta.env.VITE_APP_API_BASE_URL
 
@@ -36,14 +37,14 @@ axios.interceptors.response.use(
           // token失效
           localStorage.removeItem('token')
         }
-        console.error(res.data.message)
-        return Promise.reject(new Error(res.data.message))
+        message.error(res.data.message)
+        return Promise.reject(res.data.message)
       }
     }
     return res
   },
   (err) => {
-    console.error('请求服务器失败！')
+    message.error('请求服务器失败！')
     return Promise.reject(err)
   },
 )
