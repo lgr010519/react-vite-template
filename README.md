@@ -17,7 +17,9 @@
 2. `pnpm install --save-dev eslint-config-react-app eslint-plugin-react-refresh`
 3. 创建 `.eslintrc.cjs` 在 vite 因为 package.json 中的 type 是 module，所以不能使用 `.eslintrc.js`，所以使用 `.eslintrc.cjs`
 
-```
+```javascript
+// eslint-config-react-app 依赖 eslint-plugin-react(https://github.com/jsx-eslint/eslint-plugin-react)(https://github.com/facebook/create-react-app/blob/0a827f69ab0d2ee3871ba9b71350031d8a81b7ae/packages/eslint-config-react-app/base.js#L22)
+// 看eslint-plugin-react仓库来进行进一步的配置
 {
   extends: ['react-app', 'prettier'],
   plugins: ['react-refresh'],
@@ -681,6 +683,29 @@ const router = createBrowserRouter([
           return { Component: ContactNew.default, loader: contactLoader }
         },
       },
+      // 资产账单
+      {
+        path: 'zczd',
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: (
+              <Navigate
+                to="/qcpd/zczd/table"
+                replace={true}
+              />
+            ),
+          },
+          {
+            path: 'table',
+            lazy: async () => {
+              const Table = await import('@/views/Qcpd/Zczd.jsx')
+              return { Component: Table.default }
+            },
+          },
+        ],
+      },
       {
         path: 'contacts/:contactId/edit',
         element: <EditContact />,
@@ -700,6 +725,15 @@ const router = createBrowserRouter([
         element: <Element />,
       },
     ],
+  },
+  {
+    path: '*',
+    element: (
+      <Navigate
+        to="/"
+        replace={true}
+      />
+    ),
   },
 ])
 
