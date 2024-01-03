@@ -1,6 +1,7 @@
+import { createBrowserRouter } from 'react-router-dom'
+
 import Test from '@/views/Test/Test'
 // import About from '@/views/About/About'
-import { createBrowserRouter } from 'react-router-dom'
 
 const routes = [
   {
