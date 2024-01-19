@@ -1,6 +1,8 @@
-import { defineConfig } from 'vite'
 import path from 'path'
+
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+
 import scssVariables from './src/assets/styles/variables.scss.js'
 
 // https://vitejs.dev/config/

@@ -1,5 +1,5 @@
 {
-  "name": "vite-react-project",
+  "name": "@wing/sso-api",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,13 +8,18 @@
     "build": "vite build",
     "staging": "vite build --mode staging",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "adduser": "npm adduser --registry=https://mirrors.youpin-k8s.net/repository/npm-hosted/",
+    "push": "npm publish --registry=https://mirrors.youpin-k8s.net/repository/npm-hosted/"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
+    "@umijs/max": "^4.1.1",
     "ahooks": "^3.7.8",
     "antd": "^5.12.7",
     "axios": "^1.6.3",
+    "crypto-js": "^4.2.0",
+    "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.3",
