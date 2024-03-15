@@ -1,5 +1,10 @@
 module.exports = {
-  extends: ['react-app', 'prettier'],
+  extends: [
+    'react-app',
+    'plugin:import/recommended',
+    'plugin:import/react',
+    'prettier',
+  ],
   plugins: ['react-refresh'],
   rules: {
     'prefer-const': 2,
@@ -24,5 +29,34 @@ module.exports = {
         html: true, // 不要求对 HTML 标记使用自闭合标签
       },
     ],
+    // 导入顺序
+    'import/order': [
+      'warn',
+      {
+        groups: [
+          // https://github.com/import-js/eslint-plugin-import/blob/v2.29.1/docs/rules/order.md
+          'builtin',
+          'external',
+          'internal',
+          'parent',
+          'sibling',
+          'index',
+          'object',
+          'type',
+        ],
+        'newlines-between': 'always', // 可选: 在不同组之间加空行
+      },
+    ],
+  },
+  settings: {
+    // 添加别名解析器
+    'import/resolver': {
+      'eslint-import-resolver-custom-alias': {
+        alias: {
+          '@': './src',
+        },
+        extensions: ['.js', '.jsx'],
+      },
+    },
   },
 }

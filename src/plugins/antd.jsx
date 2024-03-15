@@ -1,6 +1,7 @@
 import zhCN from 'antd/locale/zh_CN'
-import styleVariables from '@/assets/styles/variables.scss.js'
 import { ConfigProvider, App as AntdApp } from 'antd'
+
+import styleVariables from '@/assets/styles/variables.scss.js'
 
 // antd 封装
 function AntdUi(props) {

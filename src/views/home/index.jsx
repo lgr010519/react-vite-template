@@ -1,5 +1,9 @@
-import {Button} from 'antd'
+import { Button } from 'antd'
 function Index() {
-  return <div><Button>我是傻逼</Button></div>
+  return (
+    <div>
+      <Button>HOME</Button>
+    </div>
+  )
 }
 export default Index

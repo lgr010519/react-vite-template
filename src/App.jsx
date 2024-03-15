@@ -1,6 +1,9 @@
 import { RouterProvider } from 'react-router-dom'
-import PageSpin from './components/PageSpin'
+
 import router from '@/router'
+
+import PageSpin from './components/PageSpin'
+
 function App() {
   return (
     <RouterProvider

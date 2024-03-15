@@ -5,5 +5,4 @@ module.exports = {
     'stylelint-config-hudochenkov/order',
   ],
   plugins: ['stylelint-order'],
-  rules: {},
 }
