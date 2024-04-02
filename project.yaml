@@ -1,0 +1,10 @@
+name: 项目名
+version: 0.1.0
+description: 项目说明
+group: js-repos
+pipeline: web-spec
+build:
+  image: registry.youpin-k8s.net/base-repos/node20:latest
+  commands:
+    - pnpm install --registry=http://maven.youpin-k8s.net/repository/npm/
+    - pnpm run build

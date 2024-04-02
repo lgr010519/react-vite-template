@@ -1,0 +1,18 @@
+replicaCount: 1
+service:
+  port: 80
+ingress:
+  enabled: true
+  hosts:
+    - host:
+      paths:
+        - path: /
+configMap:
+  env:
+resources:
+  limits:
+    cpu: 50m
+    memory: 50Mi
+  requests:
+    cpu: 50m
+    memory: 50Mi

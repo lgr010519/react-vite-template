@@ -1,0 +1,24 @@
+replicaCount: 1
+imagePullSecrets:
+  - name: harbor-secret
+service:
+  port: 80
+ingress:
+  enabled: true
+  hosts:
+    - host: enterprise-services-cooperate.youpin-k8s.net
+      paths:
+        - path: /
+configMap:
+  env:
+    WEBAPP_ENV.K8S_API_BASE_URL: 
+    WEBAPP_ENV.K8S_API_PREFIX_URL: 
+    WEBAPP_ENV.K8S_PROJECT_PREFIX: 
+    WEBAPP_ENV.K8S_SPACE_ID: 
+resources:
+  limits:
+    cpu: 100m
+    memory: 100Mi
+  requests:
+    cpu: 100m
+    memory: 100Mi
